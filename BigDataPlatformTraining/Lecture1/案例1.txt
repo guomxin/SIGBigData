@@ -1,0 +1,70 @@
+#Agent Tier1 
+tier1.sources = r1
+tier1.sinks = k1 k2
+tier1.channels = c1
+
+# Describe/configure the source
+tier1.sources.r1.type = avro
+tier1.sources.r1.bind = 0.0.0.0
+tier1.sources.r1.port = 44444
+
+
+# Describe the sink
+tier1.sinks.k1.type = avro
+tier1.sinks.k1.hostname = 10.10.70.47
+tier1.sinks.k1.port = 44445
+
+tier1.sinks.k2.type = avro
+tier1.sinks.k2.hostname = 10.10.70.48
+tier1.sinks.k2.port = 44445
+
+tier1.sinkgroups = g1
+tier1.sinkgroups.g1.sinks = k1 k2
+tier1.sinkgroups.g1.processor.type = load_balance
+tier1.sinkgroups.g1.processor.backoff = true
+tier1.sinkgroups.g1.processor.selector = round_robin
+
+# Use a channel which buffers events in memory
+tier1.channels.c1.type = memory
+tier1.channels.c1.capacity = 1000
+tier1.channels.c1.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+tier1.sources.r1.channels = c1
+tier1.sinks.k1.channel = c1
+tier1.sinks.k2.channel = c1
+
+#Agent Tier2
+tier2.sources = r1
+tier2.sinks = k1
+tier2.channels = c1
+
+# Describe/configure the source
+tier2.sources.r1.type = avro
+tier2.sources.r1.bind = 0.0.0.0
+tier2.sources.r1.port = 44445
+tier2.sources.r1.interceptors = i1
+tier2.sources.r1.interceptors.i1.type = host
+
+
+# Describe the sink
+tier2.sinks.k1.type = hdfs
+tier2.sinks.k1.hdfs.path = hdfs://bdp44.bigdata:8020/tmp/first/%{host}
+tier2.sinks.k1.hdfs.rollInterval = 0
+tier2.sinks.k1.hdfs.rollSize = 0
+tier2.sinks.k1.hdfs.rollCount = 0
+tier2.sinks.k1.hdfs.batchSize = 1
+tier2.sinks.k1.hdfs.writeFormat = Text
+tier2.sinks.k1.serializer = TEXT
+tier2.sinks.k1.hdfs.fileType = DataStream
+
+
+# Use a channel which buffers events in memory
+tier2.channels.c1.type = memory
+tier2.channels.c1.capacity = 1000
+tier2.channels.c1.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+tier2.sources.r1.channels = c1
+tier2.sinks.k1.channel = c1
+

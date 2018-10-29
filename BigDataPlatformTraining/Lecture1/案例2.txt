@@ -1,0 +1,162 @@
+#Agent Tier1
+#Agent agent11 
+agent11.sources = r1
+agent11.sinks = k1 k2
+agent11.channels = c1
+
+# Describe/configure the source
+agent11.sources.r1.type = avro
+agent11.sources.r1.bind = 0.0.0.0
+agent11.sources.r1.port = 44444
+agent11.sources.r1.interceptors = i1
+agent11.sources.r1.interceptors.i1.type = static
+agent11.sources.r1.interceptors.i1.key = datacenter
+agent11.sources.r1.interceptors.i1.value = JI_NAN
+
+# Describe the sink
+agent11.sinks.k1.type = avro
+agent11.sinks.k1.hostname = 10.10.70.47
+agent11.sinks.k1.port = 44445
+
+agent11.sinks.k2.type = avro
+agent11.sinks.k2.hostname = 10.10.70.48
+agent11.sinks.k2.port = 44445
+
+agent11.sinkgroups = g1
+agent11.sinkgroups.g1.sinks = k1 k2
+agent11.sinkgroups.g1.processor.type = load_balance
+agent11.sinkgroups.g1.processor.backoff = true
+agent11.sinkgroups.g1.processor.selector = round_robin
+
+# Use a channel which buffers events in memory
+agent11.channels.c1.type = memory
+agent11.channels.c1.capacity = 1000
+agent11.channels.c1.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+agent11.sources.r1.channels = c1
+agent11.sinks.k1.channel = c1
+agent11.sinks.k2.channel = c1
+
+#Agent agent12 
+agent12.sources = r1
+agent12.sinks = k1 k2
+agent12.channels = c1
+
+# Describe/configure the source
+agent12.sources.r1.type = avro
+agent12.sources.r1.bind = 0.0.0.0
+agent12.sources.r1.port = 44446
+agent12.sources.r1.interceptors = i1
+agent12.sources.r1.interceptors.i1.type = static
+agent12.sources.r1.interceptors.i1.key = datacenter
+agent12.sources.r1.interceptors.i1.value = BEI_JING
+
+# Describe the sink
+agent12.sinks.k1.type = avro
+agent12.sinks.k1.hostname = 10.10.70.47
+agent12.sinks.k1.port = 44445
+
+agent12.sinks.k2.type = avro
+agent12.sinks.k2.hostname = 10.10.70.48
+agent12.sinks.k2.port = 44445
+
+agent12.sinkgroups = g1
+agent12.sinkgroups.g1.sinks = k1 k2
+agent12.sinkgroups.g1.processor.type = load_balance
+agent12.sinkgroups.g1.processor.backoff = true
+agent12.sinkgroups.g1.processor.selector = round_robin
+
+# Use a channel which buffers events in memory
+agent12.channels.c1.type = memory
+agent12.channels.c1.capacity = 1000
+agent12.channels.c1.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+agent12.sources.r1.channels = c1
+agent12.sinks.k1.channel = c1
+agent12.sinks.k2.channel = c1
+
+#Agent agent13 
+agent13.sources = r1
+agent13.sinks = k1 k2
+agent13.channels = c1
+
+# Describe/configure the source
+agent13.sources.r1.type = avro
+agent13.sources.r1.bind = 0.0.0.0
+agent13.sources.r1.port = 44447
+agent13.sources.r1.interceptors = i1
+agent13.sources.r1.interceptors.i1.type = static
+agent13.sources.r1.interceptors.i1.key = datacenter
+agent13.sources.r1.interceptors.i1.value = SHANG_HAI
+
+# Describe the sink
+agent13.sinks.k1.type = avro
+agent13.sinks.k1.hostname = 10.10.70.47
+agent13.sinks.k1.port = 44445
+
+agent13.sinks.k2.type = avro
+agent13.sinks.k2.hostname = 10.10.70.48
+agent13.sinks.k2.port = 44445
+
+agent13.sinkgroups = g1
+agent13.sinkgroups.g1.sinks = k1 k2
+agent13.sinkgroups.g1.processor.type = load_balance
+agent13.sinkgroups.g1.processor.backoff = true
+agent13.sinkgroups.g1.processor.selector = round_robin
+
+# Use a channel which buffers events in memory
+agent13.channels.c1.type = memory
+agent13.channels.c1.capacity = 1000
+agent13.channels.c1.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+agent13.sources.r1.channels = c1
+agent13.sinks.k1.channel = c1
+agent13.sinks.k2.channel = c1
+
+#Agent Tier2
+
+tier2.sources = r1
+tier2.sinks = k1 k2
+tier2.channels = c1 c2
+
+# Describe/configure the source
+tier2.sources.r1.type = avro
+tier2.sources.r1.bind = 0.0.0.0
+tier2.sources.r1.port = 44445
+tier2.sources.r1.selector.type = multiplexing
+tier2.sources.r1.selector.header = datacenter
+tier2.sources.r1.selector.mapping.JI_NAN = c1
+tier2.sources.r1.selector.mapping.BEI_JING = c2
+tier2.sources.r1.selector.mapping.SHANG_HAI = c2
+tier2.sources.r1.selector.default = c2
+
+# Describe the sink
+#tier2.sinks.k1.type = hbase
+#a1.sinks.k1.table = foo_table
+#a1.sinks.k1.columnFamily = bar_cf
+tier2.sinks.k1.type = file_roll
+tier2.sinks.k1.sink.directory = /tmp/flume
+
+tier2.sinks.k2.type = hdfs
+tier2.sinks.k2.hdfs.path = hdfs://bdp44.bigdata:8020/tmp/second
+tier2.sinks.k2.hdfs.rollInterval = 0
+tier2.sinks.k2.hdfs.rollSize = 0
+tier2.sinks.k2.hdfs.rollCount = 0
+tier2.sinks.k2.hdfs.batchSize = 1
+tier2.sinks.k2.hdfs.fileType = DataStream
+
+# Use a channel which buffers events in memory
+tier2.channels.c1.type = memory
+tier2.channels.c1.capacity = 1000
+tier2.channels.c1.transactionCapacity = 100
+tier2.channels.c2.type = memory
+tier2.channels.c2.capacity = 1000
+tier2.channels.c2.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+tier2.sources.r1.channels = c1 c2
+tier2.sinks.k1.channel = c1
+tier2.sinks.k2.channel = c2
