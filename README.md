@@ -7,13 +7,13 @@
 # 活动
 每周四 17:30-20:00，大数据技术学习和研讨，三层1号会议室
 # 预告
-[大数据平台系列培训](https://github.com/guomxin/SIGBigData/blob/master/大数据平台系列培训.md)第三讲 
-- 2018/11/22 18:00-19:30
+[大数据平台系列培训](https://github.com/guomxin/SIGBigData/blob/master/大数据平台系列培训.md)第四讲 
+- 2018/12/13 17:30-20:00
 - 三层1号会议室
 - 主讲人：孙运
 - 内容简介：
-  - MapReduce的原理
-  - MapReduce的执行过程
-  - 数据类型与格式
-  - MapRedcue的输入处理类
-  - MapReduce的输出处理类
+  - Hive体系结构简介
+  - HiveQL数据类型，表以及表的操作
+  - HiveQL查询数据
+  - Hive的Java客户端
+  - Hive的自定义函数UDF
