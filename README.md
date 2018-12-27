@@ -9,7 +9,7 @@
 # 预告
 [大数据平台系列培训](https://github.com/guomxin/SIGBigData/blob/master/大数据平台系列培训.md)第四讲 
 - 2018/12/27 17:30-20:00
-- 三层1号会议室
+- 三层2号会议室
 - 主讲人：孙运
 - 内容简介：
   - HBase简介
