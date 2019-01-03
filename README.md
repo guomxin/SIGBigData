@@ -7,7 +7,7 @@
 # 活动
 每周四 17:30-20:00，大数据技术学习和研讨，三层2号会议室
 # 预告
-[大数据平台系列培训](https://github.com/guomxin/SIGBigData/blob/master/大数据平台系列培训.md)第五讲 
+[大数据平台系列培训](https://github.com/guomxin/SIGBigData/blob/master/大数据平台系列培训.md)第六讲 
 - 2019/01/03 17:30-20:00
 - 三层2号会议室
 - 主讲人：孙运
