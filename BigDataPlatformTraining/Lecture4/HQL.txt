@@ -1,0 +1,66 @@
+1、数据库操作
+//创建数据库
+create database test;
+//查看数据库
+show databases;
+//显示数据库的详细信息
+desc database extended test;
+//删除数据库
+drop database if exists sy1;
+2、内部表操作
+//创建表
+create table student(id int, name string, sex string, age int,department string) row format delimited fields terminated by ",";
+//查看表
+show tables;
+//查看表的详细信息
+desc formatted student;
+//数据加载
+load data local inpath '/home/sy/student.dat' into student;
+//删除表
+drop table student;
+//清空表
+truncate table student;
+3、分区表操作、
+//创建分区表
+create external table student_ptn(id int, name string, sex string, age int,department string) partitioned by (city string) row format delimited fields terminated by ",";
+//添加分区
+alter table student_ptn add partition(city="beijing");
+alter table student_ptn add partition(city="shenzhen");
+//查看分区信息
+show partitions student_ptn；
+//删除分区
+ alter table student_ptn drop partition (city='beijing');
+ //加载数据到分区
+ load data local inpath "/home/sy/student.dat" into table student_ptn partition(city="beijing");
+ 4、桶表基本操作
+ //创建桶表
+ create external table student_bck(id int, name string, sex string, age int,department string) clustered by (id) sorted by (id asc, name desc) into 4 buckets row format delimited fields terminated by ","；create external table student_bck(id int, name string, sex string, age int,department string) clustered by (id) sorted by (id asc, name desc) into 4 buckets row format delimited fields terminated by ",";
+ //数据加载	
+ insert into table student_bck select id,name,sex,age,department from student;
+ insert overwrite table student_bck select id,name,sex,age,department from student;
+ //抽样查
+ select * from student_bck tablesample(bucket 1 out of 4 on id);
+5、外部表操作
+//创建外部表
+create external table student_ext(id int, name string, sex string, age int,department string) row format delimited fields terminated by "," location '/user/sy/hive/';
+//数据加载
+LOAD DATA INPATH '/user/sy/hive/student.dat' INTO TABLE student_ext;
+//查看数据
+select * from student_ext;
+//删除外部表
+drop table student_ext;
+6、视图操作
+//创建视图
+CREATE VIEW v1 AS select * from student;
+//删除视图
+drop view v1;
+7、UDF操作
+//添加jar包
+list jar;
+add jar /home/sy/bigdata-demo.jar
+//创建临时函数
+create temporary function tolowercase as 'com.telchina.bigdata.hive.Lower';
+//使用自定义函数
+create temporary function tolowercase as 'com.telchina.bigdata.hive.Lower';
+//删除临时函数
+DROP TEMPORARY FUNCTION IF EXISTS tolowercase;
