@@ -8,10 +8,11 @@
 每周四 17:30-20:00，大数据技术学习和研讨，三层2号会议室
 # 预告
 [大数据平台系列培训](https://github.com/guomxin/SIGBigData/blob/master/大数据平台系列培训.md)第六讲 
-- 2019/01/03 17:30-20:00
+- 2019/01/17 17:30-20:00
 - 三层2号会议室
 - 主讲人：孙运
 - 内容简介：
-  - HBase Region寻址方式
-  - HBase Shell
-  - HBase Java客户端
+  - Spark简介
+  - Spark集群搭建
+  - Spark使用
+  - Spark算子
